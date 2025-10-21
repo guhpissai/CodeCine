@@ -7,12 +7,12 @@ public class Filme
     [Key]
     [Required]
     public int Id { get; set; }
-    [Required(ErrorMessage ="Title is required")]
-    public string Title { get; set; }
-    [Required(ErrorMessage = "Gender is required")]
-    [MaxLength(100, ErrorMessage ="The gender must be more than 100 characters")]
-    public string Gender { get; set; }
-    [Required(ErrorMessage ="The Duration is required")]
-    [Range(0,120, ErrorMessage ="Duration must be between 0 and 120")]
-    public int Duration { get; set; }
+    [Required(ErrorMessage ="O título é obrigatório.")]
+    public string Titulo { get; set; }
+    [Required(ErrorMessage = "O genêro é obrigatório.")]
+    [MaxLength(100, ErrorMessage ="O título deve ter no maximo 100 caracteres.")]
+    public string Genero { get; set; }
+    [Required(ErrorMessage ="A duração é obrigatória.")]
+    [Range(0,180, ErrorMessage ="A duração deve ser entre 0 e 180 minutos.")]
+    public int Duracao { get; set; }
 }

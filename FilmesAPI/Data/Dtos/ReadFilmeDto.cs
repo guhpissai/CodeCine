@@ -4,8 +4,8 @@ namespace FilmesAPI.Data.Dtos;
 
 public class ReadFilmeDto
 {
-    public string Title { get; set; }
-    public string Gender { get; set; }
-    public int Duration { get; set; }
-    public DateTime SearchTime { get; set; } = DateTime.Now;
+    public string Titulo { get; set; }
+    public string Genero { get; set; }
+    public int Duracao { get; set; }
+    public DateTime DataBusca { get; set; } = DateTime.Now;
 }

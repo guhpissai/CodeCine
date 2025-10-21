@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FilmesAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace FilmesAPI.Data.Dtos
 {
     public class UpdateCinemaDto
     {
-        [Required(ErrorMessage = "Name is required")]
-        [MaxLength(100, ErrorMessage = "Name must be less than 100 characters")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [MaxLength(80, ErrorMessage = "O nome deve ter no máximo {1} caracteres.")]
+        public string Nome { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "O endereço é obrigatório.")]
+        public int EnderecoId { get; set; }
     }
 }

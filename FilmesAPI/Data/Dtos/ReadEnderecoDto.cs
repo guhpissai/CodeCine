@@ -4,7 +4,7 @@ namespace FilmesAPI.Data.Dtos
 {
     public class ReadEnderecoDto
     {
-        public string AddressLine1 { get; set; }
-        public int Number { get; set; }
+        public string Logradouro { get; set; }
+        public int Numero { get; set; }
     }
 }
