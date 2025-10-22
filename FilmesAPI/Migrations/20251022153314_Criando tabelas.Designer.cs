@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeCine.Migrations
 {
     [DbContext(typeof(CodeCineContext))]
-    [Migration("20251021192222_Cinema, Endereco e Filme")]
-    partial class CinemaEnderecoeFilme
+    [Migration("20251022153314_Criando tabelas")]
+    partial class Criandotabelas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,24 @@ namespace CodeCine.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CodeCine.Models.Sessao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FilmeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmeId");
+
+                    b.ToTable("Sessoes");
+                });
+
             modelBuilder.Entity("FilmesAPI.Models.Cinema", b =>
                 {
                     b.Property<int>("Id")
@@ -35,17 +53,17 @@ namespace CodeCine.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
+                    b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
+                    b.HasIndex("EnderecoId")
                         .IsUnique();
 
                     b.ToTable("Cinemas");
@@ -59,12 +77,12 @@ namespace CodeCine.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AddressLine1")
+                    b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Number")
+                    b.Property<int>("Numero")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -80,15 +98,15 @@ namespace CodeCine.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Duration")
+                    b.Property<int>("Duracao")
                         .HasColumnType("int");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("Genero")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -97,21 +115,36 @@ namespace CodeCine.Migrations
                     b.ToTable("Filmes");
                 });
 
-            modelBuilder.Entity("FilmesAPI.Models.Cinema", b =>
+            modelBuilder.Entity("CodeCine.Models.Sessao", b =>
                 {
-                    b.HasOne("FilmesAPI.Models.Endereco", "Address")
-                        .WithOne("Cinema")
-                        .HasForeignKey("FilmesAPI.Models.Cinema", "AddressId")
+                    b.HasOne("FilmesAPI.Models.Filme", "Filme")
+                        .WithMany("Sessoes")
+                        .HasForeignKey("FilmeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("Filme");
+                });
+
+            modelBuilder.Entity("FilmesAPI.Models.Cinema", b =>
+                {
+                    b.HasOne("FilmesAPI.Models.Endereco", "Endereco")
+                        .WithOne("Cinema")
+                        .HasForeignKey("FilmesAPI.Models.Cinema", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Endereco");
                 });
 
             modelBuilder.Entity("FilmesAPI.Models.Endereco", b =>
                 {
-                    b.Navigation("Cinema")
-                        .IsRequired();
+                    b.Navigation("Cinema");
+                });
+
+            modelBuilder.Entity("FilmesAPI.Models.Filme", b =>
+                {
+                    b.Navigation("Sessoes");
                 });
 #pragma warning restore 612, 618
         }

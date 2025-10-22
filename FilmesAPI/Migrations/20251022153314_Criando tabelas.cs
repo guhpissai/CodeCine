@@ -5,7 +5,7 @@
 namespace CodeCine.Migrations
 {
     /// <inheritdoc />
-    public partial class CinemaEnderecoeFilme : Migration
+    public partial class Criandotabelas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace CodeCine.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AddressLine1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false)
+                    Logradouro = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Numero = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,9 +30,9 @@ namespace CodeCine.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false)
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Genero = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Duracao = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,25 +45,49 @@ namespace CodeCine.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    Nome = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    EnderecoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cinemas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cinemas_Enderecos_AddressId",
-                        column: x => x.AddressId,
+                        name: "FK_Cinemas_Enderecos_EnderecoId",
+                        column: x => x.EnderecoId,
                         principalTable: "Enderecos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Sessoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FilmeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sessoes_Filmes_FilmeId",
+                        column: x => x.FilmeId,
+                        principalTable: "Filmes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Cinemas_AddressId",
+                name: "IX_Cinemas_EnderecoId",
                 table: "Cinemas",
-                column: "AddressId",
+                column: "EnderecoId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sessoes_FilmeId",
+                table: "Sessoes",
+                column: "FilmeId");
         }
 
         /// <inheritdoc />
@@ -73,10 +97,13 @@ namespace CodeCine.Migrations
                 name: "Cinemas");
 
             migrationBuilder.DropTable(
-                name: "Filmes");
+                name: "Sessoes");
 
             migrationBuilder.DropTable(
                 name: "Enderecos");
+
+            migrationBuilder.DropTable(
+                name: "Filmes");
         }
     }
 }
